@@ -1,57 +1,147 @@
 # Task 01 - Simple Python Application
 
-A basic Python script that prints a greeting message with the current timestamp.
+A lightweight Python script that prints a greeting message with the current timestamp, containerized with Docker.
 
-## Description
+## Table of Contents
 
-This project demonstrates a minimal Python application containerized with Docker. When executed, it prints "Hello from kc, the time is [current timestamp]" to the console.
+- [Overview](#overview)
+- [Requirements](#requirements)
+- [Project Structure](#project-structure)
+- [Quick Start](#quick-start)
+  - [Run Locally](#run-locally)
+  - [Run with Docker](#run-with-docker)
+- [Docker Guide](#docker-guide)
+  - [Build the Image](#build-the-image)
+  - [Run the Container](#run-the-container)
+  - [Verify the Image](#verify-the-image)
+- [Dockerfile Reference](#dockerfile-reference)
+- [License](#license)
 
-## Requirements
+---
 
-- Python 3.12+ (for local execution)
-- Docker (for containerized execution)
+## Overview
 
-## Local Execution
+This project demonstrates a minimal Python application that outputs a greeting message along with the current timestamp. It serves as a basic example for understanding Docker containerization with Python.
 
-Run the Python script directly:
-
-```bash
-python app.py
-```
-
-Expected output:
+**Output Example:**
 
 ```
 Hello from kc, the time is 2026-05-07 12:34:56.789012
 ```
 
-## Docker Execution
+---
 
-### Build the Docker Image
+## Requirements
 
-```bash
-docker build -t task-01 .
-```
+| Tool   | Version | Purpose                            |
+| ------ | ------- | ---------------------------------- |
+| Python | 3.12+   | Running the script locally         |
+| Docker | Latest  | Building and running the container |
 
-### Run the Container
-
-```bash
-docker run --rm task-01
-```
-
-This will execute the Python script inside the Docker container and display the greeting with the current timestamp.
+---
 
 ## Project Structure
 
 ```
 task_01/
-├── app.py      # Main Python script
-├── Dockerfile  # Docker container configuration
-└── README.md   # This file
+├── app.py          # Python application script
+├── Dockerfile      # Docker image configuration
+└── README.md       # Project documentation
 ```
 
-## Docker Details
+---
 
-- **Base Image**: Python 3.12 Alpine (lightweight Python image)
-- **Working Directory**: `/app`
-- **Entry Point**: `python app.py`
+## Quick Start
+
+### Run Locally
+
+Execute the Python script directly on your machine:
+
+```bash
+python app.py
+```
+
+### Run with Docker
+
+1. Build the image:
+
+   ```bash
+   docker build -t task-01 .
+   ```
+
+2. Run the container:
+   ```bash
+   docker run --rm task-01
+   ```
+
+---
+
+## Docker Guide
+
+### Build the Image
+
+To create a Docker image from the Dockerfile:
+
+```bash
+docker build -t task-01 .
+```
+
+**Command Breakdown:**
+
+| Component      | Description                                             |
+| -------------- | ------------------------------------------------------- |
+| `docker build` | Command to build a Docker image                         |
+| `-t task-01`   | Tags the image with the name `task-01`                  |
+| `.`            | Build context (current directory containing Dockerfile) |
+
+### Run the Container
+
+Execute the containerized application:
+
+```bash
+docker run --rm task-01
+```
+
+**Flags:**
+
+- `--rm` - Automatically remove the container after it exits
+
+To run the container again without rebuilding:
+
+```bash
+docker start -a task-01
+```
+
+### Verify the Image
+
+Check that the image was created successfully:
+
+```bash
+docker images
+```
+
+You should see `task-01` listed in the output.
+
+---
+
+## Dockerfile Reference
+
+The Dockerfile contains instructions to build the Docker image:
+
+```dockerfile
+FROM python:3.12-alpine
+WORKDIR /app
+COPY app.py .
+CMD ["python", "app.py"]
+```
+
+| Instruction                | Description                                                     |
+| -------------------------- | --------------------------------------------------------------- |
+| `FROM python:3.12-alpine`  | Base image: lightweight Python 3.12 on Alpine Linux (~50MB)     |
+| `WORKDIR /app`             | Sets working directory to `/app` inside the container           |
+| `COPY app.py .`            | Copies `app.py` from the build context to the working directory |
+| `CMD ["python", "app.py"]` | Defines the default command to run when the container starts    |
+
+---
+
+**Built with ❤️ by kc**
